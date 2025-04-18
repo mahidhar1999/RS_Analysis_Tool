@@ -511,6 +511,10 @@ nifty_500 = [symbol + ".NS" for symbol in stock_symbols]
 
 
 app = FastAPI()
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to the RS Screener API 🚀"}
+
 def calculate_pct_change(symbol: str, period: int = 55):
     end_date = datetime.today()
     start_date = end_date - timedelta(days=period * 2)  # Extended range to cover weekends/holidays
