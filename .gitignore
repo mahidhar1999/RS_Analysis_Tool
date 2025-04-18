@@ -1,0 +1,14 @@
+# Virtual environment folder
+venv/
+
+# Python bytecode files
+__pycache__/
+
+# .env file (if you're using environment variables)
+.env
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints
+
+# VSCode settings folder
+.vscode/
