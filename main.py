@@ -617,36 +617,44 @@ def top_stocks():
     # Get the NIFTY market return to determine if it's a bull or bear market
     nifty_return = calculate_pct_change("^NSEI")
     print("nifty_return", nifty_return)
+
     for stock_symbol in nifty_500:
         rs = calculate_rs(stock_symbol)
-        print(stock_symbol," RS: ", rs)
-        
-        try:
-            # Fetch the last traded price (last closing price) of the stock
-            stock_data = yf.download(stock_symbol, period="1d", interval="1d")
-            last_traded_price = stock_data['Close'].iloc[-1]  # The most recent closing price
-        except Exception as e:
-            print(f"Error fetching last traded price for {stock_symbol}: {e}")
-            last_traded_price = None  # In case of any error, assign None as a fallback
-        
-        if rs is not None and last_traded_price is not None:
-            # In Bull Market: Strong stocks have RS > 1
-            if nifty_return > 0 and rs > 1:  # Bull Market
-                rs_values.append({
-                    "stock_symbol": stock_symbol,
-                    "relative_strength": rs,
-                    "last_traded_price": last_traded_price
-                })
-                print(f"Appended {stock_symbol} with RS: {rs} and Last Traded Price: {last_traded_price}")
+        print(stock_symbol, " RS: ", rs)
 
-            # In Bear Market: Strong stocks have RS < 1 (falling less or rising)
-            elif nifty_return < 0 and rs < 1:  # Bear Market
-                rs_values.append({
-                    "stock_symbol": stock_symbol,
-                    "relative_strength": (-1 * rs),
-                    "last_traded_price": last_traded_price
-                })
-                print(f"Appended {stock_symbol} with RS: {-1 * rs} and Last Traded Price: {last_traded_price}")
+        try:
+            # Fetch 1 year of daily data to calculate 52-week high/low and latest price
+            stock_data = yf.download(stock_symbol, period="1y", interval="1d")
+            last_traded_price = stock_data['Close'].iloc[-1]
+            high_52_week = stock_data['High'].max()
+            low_52_week = stock_data['Low'].min()
+        except Exception as e:
+            print(f"Error fetching data for {stock_symbol}: {e}")
+            last_traded_price = None
+            high_52_week = None
+            low_52_week = None
+
+        if rs is not None and last_traded_price is not None:
+            stock_info = {
+                "stock_symbol": stock_symbol,
+                "relative_strength": rs if nifty_return > 0 else (-1 * rs),
+                "last_traded_price": last_traded_price,
+                "52_week_high": high_52_week,
+                "52_week_low": low_52_week
+            }
+
+            # Bull Market: RS > 1
+            if nifty_return > 0 and rs > 1:
+                rs_values.append(stock_info)
+                print(f"Appended {stock_symbol} [Bull] with RS: {rs}, LTP: {last_traded_price}")
+            # Bear Market: RS < 1 (falling less)
+            elif nifty_return < 0 and rs < 1:
+                rs_values.append(stock_info)
+                print(f"Appended {stock_symbol} [Bear] with RS: {-1 * rs}, LTP: {last_traded_price}")
+
+    # Sort by RS descending and return top 25
+    top_25_stocks = sorted(rs_values, key=lambda x: x["relative_strength"], reverse=True)[:25]
+    return top_25_stocks
 
 
     # Sort stocks by RS in descending order and get the top 25
