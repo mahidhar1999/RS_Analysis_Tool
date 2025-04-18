@@ -655,9 +655,3 @@ def top_stocks():
     # Sort by RS descending and return top 25
     top_25_stocks = sorted(rs_values, key=lambda x: x["relative_strength"], reverse=True)[:25]
     return top_25_stocks
-
-
-    # Sort stocks by RS in descending order and get the top 25
-    top_25_stocks = sorted(rs_values, key=lambda x: x["relative_strength"], reverse=True)[:25]
-
-    return top_25_stocks
