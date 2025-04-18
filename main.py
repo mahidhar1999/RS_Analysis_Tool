@@ -617,8 +617,7 @@ def calculate_rs(stock_symbol: str, comparative_symbol: str = "^NSEI", period: i
 @app.get("/top-stocks")
 def top_stocks():
     rs_values = []
-    ist = pytz.timezone("Asia/Kolkata")
-    timestamp_ist = datetime.now(ist).isoformat()  # Current time in ISO format (IST)
+
     # Get the NIFTY market return to determine if it's a bull or bear market
     nifty_return = calculate_pct_change("^NSEI")
     print("nifty_return", nifty_return)
@@ -630,14 +629,9 @@ def top_stocks():
         try:
             # Fetch 1 year of daily data to calculate 52-week high/low and latest price
             stock_data = yf.download(stock_symbol, period="1y", interval="1d")
-            last_traded_price = stock_data['Close'].iloc[-1]
-            high_52_week = stock_data['High'].max()
-            low_52_week = stock_data['Low'].min()
-
-            # Convert pandas Series (e.g., 'Close', 'High', 'Low') to native Python data types
-            last_traded_price = float(last_traded_price)
-            high_52_week = float(high_52_week)
-            low_52_week = float(low_52_week)
+            last_traded_price = stock_data['Close'].iloc[-1].item()
+            high_52_week = stock_data['High'].max().item()
+            low_52_week = stock_data['Low'].min().item()
 
         except Exception as e:
             print(f"Error fetching data for {stock_symbol}: {e}")
@@ -649,9 +643,9 @@ def top_stocks():
             stock_info = {
                 "stock_symbol": stock_symbol,
                 "relative_strength": rs if nifty_return > 0 else (-1 * rs),
-                "last_traded_price": {stock_symbol: last_traded_price},
-                "52_week_high": {stock_symbol: high_52_week},
-                "52_week_low": {stock_symbol: low_52_week}
+                "last_traded_price": last_traded_price,
+                "52_week_high": high_52_week,
+                "52_week_low": low_52_week
             }
 
             # Bull Market: RS > 1
@@ -666,19 +660,21 @@ def top_stocks():
     # Sort by RS descending and return top 25
     top_25_stocks = sorted(rs_values, key=lambda x: x["relative_strength"], reverse=True)[:25]
 
-        # Add the timestamp of data creation
-    data_to_save = {
-        "timestamp": timestamp_ist,  # Current time in IST
-        "top_stocks": top_25_stocks
-    }
+    # Add creation timestamp in IST
+    ist = pytz.timezone("Asia/Kolkata")
+    created_at = datetime.now(ist).strftime("%Y-%m-%d %H:%M:%S")
+
     # Save the result to a JSON file
     try:
         with open("top_stocks_data.json", "w") as f:
-            json.dump(data_to_save, f, indent=4)
+            json.dump({
+                "created_at": created_at,
+                "data": top_25_stocks
+            }, f, indent=4)
             print("Data saved to top_stocks_data.json")
     except Exception as e:
         print(f"Error saving data: {e}")
-    
+
     return top_25_stocks
 
 @app.get("/get-top-stocks")
