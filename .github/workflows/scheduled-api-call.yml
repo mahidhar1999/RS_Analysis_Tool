@@ -1,0 +1,15 @@
+name: Run Scheduled Task
+
+on:
+  schedule:
+    # Cron syntax for scheduling the task to run at 6 AM IST every day
+    - cron: '30 0 * * *'  # This runs at 12:30 AM UTC, which is 6 AM IST daily
+
+jobs:
+  run-api-call:
+    runs-on: ubuntu-latest  # Specify the OS environment for the runner
+
+    steps:
+      - name: Call top_stocks API
+        run: |
+          curl -X GET https://rs-analysis-tool.onrender.com/top-stocks  # Replace with your Render app's URL
