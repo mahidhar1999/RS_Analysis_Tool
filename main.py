@@ -2,6 +2,10 @@ import yfinance as yf
 from fastapi import FastAPI
 from datetime import datetime, timedelta
 import pandas as pd
+import json
+from datetime import datetime
+import pytz
+
 stock_symbols = [
     "360ONE",
     "3MINDIA",
@@ -613,7 +617,8 @@ def calculate_rs(stock_symbol: str, comparative_symbol: str = "^NSEI", period: i
 @app.get("/top-stocks")
 def top_stocks():
     rs_values = []
-
+    ist = pytz.timezone("Asia/Kolkata")
+    timestamp_ist = datetime.now(ist).isoformat()  # Current time in ISO format (IST)
     # Get the NIFTY market return to determine if it's a bull or bear market
     nifty_return = calculate_pct_change("^NSEI")
     print("nifty_return", nifty_return)
@@ -628,6 +633,12 @@ def top_stocks():
             last_traded_price = stock_data['Close'].iloc[-1]
             high_52_week = stock_data['High'].max()
             low_52_week = stock_data['Low'].min()
+
+            # Convert pandas Series (e.g., 'Close', 'High', 'Low') to native Python data types
+            last_traded_price = float(last_traded_price)
+            high_52_week = float(high_52_week)
+            low_52_week = float(low_52_week)
+
         except Exception as e:
             print(f"Error fetching data for {stock_symbol}: {e}")
             last_traded_price = None
@@ -638,9 +649,9 @@ def top_stocks():
             stock_info = {
                 "stock_symbol": stock_symbol,
                 "relative_strength": rs if nifty_return > 0 else (-1 * rs),
-                "last_traded_price": last_traded_price,
-                "52_week_high": high_52_week,
-                "52_week_low": low_52_week
+                "last_traded_price": {stock_symbol: last_traded_price},
+                "52_week_high": {stock_symbol: high_52_week},
+                "52_week_low": {stock_symbol: low_52_week}
             }
 
             # Bull Market: RS > 1
@@ -654,4 +665,33 @@ def top_stocks():
 
     # Sort by RS descending and return top 25
     top_25_stocks = sorted(rs_values, key=lambda x: x["relative_strength"], reverse=True)[:25]
+
+        # Add the timestamp of data creation
+    data_to_save = {
+        "timestamp": timestamp_ist,  # Current time in IST
+        "top_stocks": top_25_stocks
+    }
+    # Save the result to a JSON file
+    try:
+        with open("top_stocks_data.json", "w") as f:
+            json.dump(data_to_save, f, indent=4)
+            print("Data saved to top_stocks_data.json")
+    except Exception as e:
+        print(f"Error saving data: {e}")
+    
     return top_25_stocks
+
+@app.get("/get-top-stocks")
+def get_top_stocks():
+    # Read the results from the saved file
+    try:
+        with open("top_stocks_data.json", "r") as f:
+            top_25_stocks = json.load(f)
+            print("Data loaded from top_stocks_data.json")
+            return top_25_stocks
+    except FileNotFoundError:
+        print("File not found. Please run the API first.")
+        return {"message": "Data not available. Please run the API first."}
+    except Exception as e:
+        print(f"Error loading data: {e}")
+        return {"message": "Error loading data."}
