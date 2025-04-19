@@ -599,11 +599,15 @@ def calculate_pct_change(symbol: str, period: int = 55):
     
 def calculate_rs(stock_symbol: str, comparative_symbol: str = "^NSEI", period: int = 55):
     end_date = datetime.today()
-    start_date = end_date - timedelta(days=period * 2)  # extend to get enough trading days
+    start_date = end_date - timedelta(days=period * 2)
 
     try:
         stock_data = yf.download(stock_symbol, start=start_date, end=end_date)
         index_data = yf.download(comparative_symbol, start=start_date, end=end_date)
+
+        if stock_data.empty or index_data.empty:
+            print(f"[{stock_symbol}] Data not available.")
+            return None
 
         stock_close = stock_data['Close'].dropna()[-period:]
         index_close = index_data['Close'].dropna()[-period:]
@@ -612,11 +616,11 @@ def calculate_rs(stock_symbol: str, comparative_symbol: str = "^NSEI", period: i
             print(f"[{stock_symbol}] Not enough trading data.")
             return None
 
-        # Extract scalar float values safely using .item()
         stock_start = stock_close.iloc[0].item()
         stock_end = stock_close.iloc[-1].item()
         index_start = index_close.iloc[0].item()
         index_end = index_close.iloc[-1].item()
+
 
         stock_pct_change = (stock_end - stock_start) / stock_start
         index_pct_change = (index_end - index_start) / index_start
@@ -754,7 +758,7 @@ def sector_strength():
                 "created_at": created_at,
                 "data": sorted_sectors
             }, f, indent=4)
-            print("Data saved to top_stocks_data.json")
+            print("Data saved to top_sectors_data.json")
     except Exception as e:
         print(f"Error saving data: {e}")
     return sorted_sectors
