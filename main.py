@@ -636,7 +636,27 @@ def calculate_rs(stock_symbol: str, comparative_symbol: str = "^NSEI", period: i
         print(f"Error processing {stock_symbol}: {e}")
         return None
 
-    
+
+# Helper function to fetch data with retry logic
+def fetch_stock_data_with_retry(stock_symbol: str, retries: int = 3, delay: int = 5):
+    attempt = 0
+    while attempt < retries:
+        try:
+            # Fetch 1 year of daily data
+            stock_data = yf.download(stock_symbol, period="1y", interval="1d")
+            if stock_data.empty:
+                raise ValueError(f"No data returned for {stock_symbol}")
+
+            return stock_data
+        except Exception as e:
+            attempt += 1
+            print(f"Error fetching data for {stock_symbol} (Attempt {attempt}/{retries}): {e}")
+            if attempt < retries:
+                time.sleep(delay)  # Wait before retrying
+            else:
+                print(f"Failed to fetch data for {stock_symbol} after {retries} attempts.")
+                return None
+
 @app.api_route("/top-stocks", methods=["GET", "HEAD"])
 def top_stocks():
     rs_values = []
@@ -649,15 +669,17 @@ def top_stocks():
         rs = calculate_rs(stock_symbol)
         print(stock_symbol, " RS: ", rs)
 
+        # Fetch stock data with retry mechanism
+        stock_data = fetch_stock_data_with_retry(stock_symbol)
+        if stock_data is None:
+            continue  # Skip this stock if data couldn't be fetched
+
         try:
-            # Fetch 1 year of daily data to calculate 52-week high/low and latest price
-            stock_data = yf.download(stock_symbol, period="1y", interval="1d")
             last_traded_price = stock_data['Close'].iloc[-1].item()
             high_52_week = stock_data['High'].max().item()
             low_52_week = stock_data['Low'].min().item()
-
         except Exception as e:
-            print(f"Error fetching data for {stock_symbol}: {e}")
+            print(f"Error processing data for {stock_symbol}: {e}")
             last_traded_price = None
             high_52_week = None
             low_52_week = None
@@ -679,7 +701,7 @@ def top_stocks():
             elif nifty_return < 0 and rs < 1:
                 rs_values.append(stock_info)
                 print(f"Appended {stock_symbol} [Bear] with RS: {-1 * rs}, LTP: {last_traded_price}")
-        time.sleep(1) 
+
     # Sort by RS descending and return top 25
     top_25_stocks = sorted(rs_values, key=lambda x: x["relative_strength"], reverse=True)[:25]
 
@@ -714,7 +736,25 @@ def get_top_stocks():
     except Exception as e:
         print(f"Error loading data: {e}")
         return {"message": "Error loading data."}
-    
+
+# Helper function to fetch sector data with retry logic
+def fetch_sector_data_with_retry(symbol: str, start_date: str, end_date: str, retries: int = 3, delay: int = 5):
+    attempt = 0
+    while attempt < retries:
+        try:
+            # Fetch sector data for the given symbol and date range
+            data = yf.download(symbol, start=start_date, end=end_date)
+            if data.empty:
+                raise ValueError(f"No data returned for {symbol}")
+            return data
+        except Exception as e:
+            attempt += 1
+            print(f"Error fetching data for {symbol} (Attempt {attempt}/{retries}): {e}")
+            if attempt < retries:
+                time.sleep(delay)  # Wait before retrying
+            else:
+                print(f"Failed to fetch data for {symbol} after {retries} attempts.")
+                return None
 
 @app.api_route("/sector-strength", methods=["GET", "HEAD"])
 def sector_strength():
@@ -727,13 +767,17 @@ def sector_strength():
     for sector, symbol in sector_indices.items():
         rs = calculate_rs(symbol)
 
+        # Fetch sector data with retry mechanism
+        sector_data = fetch_sector_data_with_retry(symbol, start_date, end_date)
+        if sector_data is None:
+            continue  # Skip this sector if data couldn't be fetched
+
         try:
-            data = yf.download(symbol, start=start_date, end=end_date)
-            current_price = data['Close'].iloc[-1].item()
-            high_52_week = data['High'].max().item()
-            low_52_week = data['Low'].min().item()
+            current_price = sector_data['Close'].iloc[-1].item()
+            high_52_week = sector_data['High'].max().item()
+            low_52_week = sector_data['Low'].min().item()
         except Exception as e:
-            print(f"Error fetching sector data for {sector} ({symbol}): {e}")
+            print(f"Error processing sector data for {sector} ({symbol}): {e}")
             current_price = None
             high_52_week = None
             low_52_week = None
@@ -746,8 +790,9 @@ def sector_strength():
                 "52_week_high": high_52_week,
                 "52_week_low": low_52_week
             })
-        time.sleep(1)
+
     sorted_sectors = sorted(sector_rs, key=lambda x: x["relative_strength"], reverse=True)
+    
     # Add creation timestamp in IST
     ist = pytz.timezone("Asia/Kolkata")
     created_at = datetime.now(ist).strftime("%Y-%m-%d %H:%M:%S")
@@ -762,6 +807,7 @@ def sector_strength():
             print("Data saved to top_sectors_data.json")
     except Exception as e:
         print(f"Error saving data: {e}")
+    
     return sorted_sectors
 
 @app.get("/get-top-sectors")
