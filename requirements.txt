@@ -3,4 +3,3 @@ uvicorn
 yfinance
 pandas
 pytz
-time
