@@ -513,6 +513,24 @@ stock_symbols = [
 nifty_500 = [symbol + ".NS" for symbol in stock_symbols]
 #nifty_500 = ["RELIANCE.NS", "TCS.NS", "INFY.NS"]
 
+sector_indices = {
+        "NIFTY AUTO": "^CNXAUTO",
+        "NIFTY BANK": "^NSEBANK",
+        "NIFTY FMCG": "^CNXFMCG",
+        "NIFTY IT": "^CNXIT",
+        "NIFTY MEDIA": "^CNXMEDIA",
+        "NIFTY METAL": "^CNXMETAL",
+        "NIFTY PHARMA": "^CNXPHARMA",
+        "NIFTY PSU BANK": "^CNXPSUBANK",
+        "NIFTY REALTY": "^CNXREALTY",
+        "NIFTY ENERGY": "^CNXENERGY",
+        "NIFTY INFRA": "^CNXINFRA",
+        "NIFTY CONSUMPTION": "^CNXCONSUM",
+        "NIFTY MNC": "^CNXMNC",
+        "NIFTY PSE": "^CNXPSE",
+        "NIFTY SERVICES SECTOR": "^CNXSERVICE",
+    }
+
 
 app = FastAPI()
 @app.get("/")
@@ -691,3 +709,68 @@ def get_top_stocks():
     except Exception as e:
         print(f"Error loading data: {e}")
         return {"message": "Error loading data."}
+    
+
+@app.api_route("/sector-strength", methods=["GET", "HEAD"])
+def sector_strength():
+    sector_rs = []
+    nifty_return = calculate_pct_change("^NSEI")
+
+    end_date = datetime.today()
+    start_date = end_date - timedelta(days=365)  # last 1 year
+
+    for sector, symbol in sector_indices.items():
+        rs = calculate_rs(symbol)
+
+        try:
+            data = yf.download(symbol, start=start_date, end=end_date)
+            current_price = data['Close'].iloc[-1].item()
+            high_52_week = data['High'].max().item()
+            low_52_week = data['Low'].min().item()
+        except Exception as e:
+            print(f"Error fetching sector data for {sector} ({symbol}): {e}")
+            current_price = None
+            high_52_week = None
+            low_52_week = None
+
+        if rs is not None and current_price is not None:
+            sector_rs.append({
+                "sector": sector,
+                "relative_strength": rs if nifty_return > 0 else (-1 * rs),
+                "current_price": current_price,
+                "52_week_high": high_52_week,
+                "52_week_low": low_52_week
+            })
+
+    sorted_sectors = sorted(sector_rs, key=lambda x: x["relative_strength"], reverse=True)
+    # Add creation timestamp in IST
+    ist = pytz.timezone("Asia/Kolkata")
+    created_at = datetime.now(ist).strftime("%Y-%m-%d %H:%M:%S")
+
+    # Save the result to a JSON file
+    try:
+        with open("top_sectors_data.json", "w") as f:
+            json.dump({
+                "created_at": created_at,
+                "data": sorted_sectors
+            }, f, indent=4)
+            print("Data saved to top_stocks_data.json")
+    except Exception as e:
+        print(f"Error saving data: {e}")
+    return sorted_sectors
+
+@app.get("/get-top-sectors")
+def get_top_stocks():
+    # Read the results from the saved file
+    try:
+        with open("top_sectors_data.json", "r") as f:
+            top_25_stocks = json.load(f)
+            print("Data loaded from top_sectors_data.json")
+            return top_25_stocks
+    except FileNotFoundError:
+        print("File not found. Please run the API first.")
+        return {"message": "Data not available. Please run the API first."}
+    except Exception as e:
+        print(f"Error loading data: {e}")
+        return {"message": "Error loading data."}
+

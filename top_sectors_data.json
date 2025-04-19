@@ -1,0 +1,110 @@
+{
+    "created_at": "2025-04-19 12:48:00",
+    "data": [
+        {
+            "sector": "NIFTY BANK",
+            "relative_strength": 3.7231173038650156,
+            "current_price": 54290.19921875,
+            "52_week_high": 54467.3515625,
+            "52_week_low": 46077.8515625
+        },
+        {
+            "sector": "NIFTY PSU BANK",
+            "relative_strength": 1.8262280805292388,
+            "current_price": 6522.5,
+            "52_week_high": 8053.2998046875,
+            "52_week_low": 5530.35009765625
+        },
+        {
+            "sector": "NIFTY SERVICES SECTOR",
+            "relative_strength": 1.621139053824781,
+            "current_price": 31832.19921875,
+            "52_week_high": 33791.1484375,
+            "52_week_low": 26535.150390625
+        },
+        {
+            "sector": "NIFTY PSE",
+            "relative_strength": 1.595264429272568,
+            "current_price": 9544.75,
+            "52_week_high": 11814.599609375,
+            "52_week_low": 7956.4501953125
+        },
+        {
+            "sector": "NIFTY INFRA",
+            "relative_strength": 1.4353646774068525,
+            "current_price": 8632.7998046875,
+            "52_week_high": 9704.2001953125,
+            "52_week_low": 7589.9501953125
+        },
+        {
+            "sector": "NIFTY CONSUMPTION",
+            "relative_strength": 1.0924390490187104,
+            "current_price": 11266.7001953125,
+            "52_week_high": 13057.599609375,
+            "52_week_low": 9954.5
+        },
+        {
+            "sector": "NIFTY ENERGY",
+            "relative_strength": 0.4880864907398915,
+            "current_price": 33797.5,
+            "52_week_high": 45022.1484375,
+            "52_week_low": 29313.19921875
+        },
+        {
+            "sector": "NIFTY FMCG",
+            "relative_strength": 0.328009111304739,
+            "current_price": 56674.19921875,
+            "52_week_high": 66438.703125,
+            "52_week_low": 50199.3515625
+        },
+        {
+            "sector": "NIFTY METAL",
+            "relative_strength": 0.1358402133368675,
+            "current_price": 8476.5,
+            "52_week_high": 10322.0498046875,
+            "52_week_low": 7690.2001953125
+        },
+        {
+            "sector": "NIFTY REALTY",
+            "relative_strength": -0.3010189349627631,
+            "current_price": 845.0999755859375,
+            "52_week_high": 1157.3499755859375,
+            "52_week_low": 765.7999877929688
+        },
+        {
+            "sector": "NIFTY MNC",
+            "relative_strength": -0.4844531983279843,
+            "current_price": 26703.94921875,
+            "52_week_high": 32841.1484375,
+            "52_week_low": 23981.05078125
+        },
+        {
+            "sector": "NIFTY PHARMA",
+            "relative_strength": -1.0365833799192952,
+            "current_price": 21126.75,
+            "52_week_high": 23907.900390625,
+            "52_week_low": 17904.75
+        },
+        {
+            "sector": "NIFTY AUTO",
+            "relative_strength": -1.0943480771163492,
+            "current_price": 21373.099609375,
+            "52_week_high": 27696.099609375,
+            "52_week_low": 19316.650390625
+        },
+        {
+            "sector": "NIFTY MEDIA",
+            "relative_strength": -1.1517587111067826,
+            "current_price": 1581.1500244140625,
+            "52_week_high": 2182.35009765625,
+            "52_week_low": 1344.4000244140625
+        },
+        {
+            "sector": "NIFTY IT",
+            "relative_strength": -7.092127556568673,
+            "current_price": 33372.3515625,
+            "52_week_high": 46088.8984375,
+            "52_week_low": 30918.94921875
+        }
+    ]
+}
