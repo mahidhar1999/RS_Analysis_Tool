@@ -5,6 +5,7 @@ import pandas as pd
 import json
 from datetime import datetime
 import pytz
+import time
 
 stock_symbols = [
     "360ONE",
@@ -678,7 +679,7 @@ def top_stocks():
             elif nifty_return < 0 and rs < 1:
                 rs_values.append(stock_info)
                 print(f"Appended {stock_symbol} [Bear] with RS: {-1 * rs}, LTP: {last_traded_price}")
-
+        time.sleep(1) 
     # Sort by RS descending and return top 25
     top_25_stocks = sorted(rs_values, key=lambda x: x["relative_strength"], reverse=True)[:25]
 
@@ -745,7 +746,7 @@ def sector_strength():
                 "52_week_high": high_52_week,
                 "52_week_low": low_52_week
             })
-
+        time.sleep(1)
     sorted_sectors = sorted(sector_rs, key=lambda x: x["relative_strength"], reverse=True)
     # Add creation timestamp in IST
     ist = pytz.timezone("Asia/Kolkata")
