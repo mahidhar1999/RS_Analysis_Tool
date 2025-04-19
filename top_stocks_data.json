@@ -1,18 +1,180 @@
 {
-    "timestamp": "2025-04-18T22:33:31.573076+05:30",
-    "top_stocks": [
+    "created_at": "2025-04-19 15:44:14",
+    "data": [
         {
-            "stock_symbol": "RELIANCE.NS",
-            "relative_strength": 1.1167292498426442,
-            "last_traded_price": {
-                "RELIANCE.NS": 1274.5
-            },
-            "52_week_high": {
-                "RELIANCE.NS": 1603.3582879590508
-            },
-            "52_week_low": {
-                "RELIANCE.NS": 1114.8499755859375
-            }
+            "stock_symbol": "GODFRYPHLP.NS",
+            "relative_strength": 22.996186043495193,
+            "last_traded_price": 7632.5,
+            "52_week_high": 8429.478589192753,
+            "52_week_low": 2913.101411309553
+        },
+        {
+            "stock_symbol": "JSWHL.NS",
+            "relative_strength": 13.61003505588848,
+            "last_traded_price": 26420.0,
+            "52_week_high": 26984.94921875,
+            "52_week_low": 6015.0
+        },
+        {
+            "stock_symbol": "NH.NS",
+            "relative_strength": 13.218858025619799,
+            "last_traded_price": 1854.4000244140625,
+            "52_week_high": 1861.0,
+            "52_week_low": 1076.5515655164093
+        },
+        {
+            "stock_symbol": "GLAXO.NS",
+            "relative_strength": 12.451258248500794,
+            "last_traded_price": 2906.800048828125,
+            "52_week_high": 3073.9081376674194,
+            "52_week_low": 1822.7751531587128
+        },
+        {
+            "stock_symbol": "CHAMBLFERT.NS",
+            "relative_strength": 12.388744106385632,
+            "last_traded_price": 673.5999755859375,
+            "52_week_high": 675.0,
+            "52_week_low": 327.92663277626593
+        },
+        {
+            "stock_symbol": "SHRIRAMFIN.NS",
+            "relative_strength": 10.894831517090585,
+            "last_traded_price": 691.75,
+            "52_week_high": 722.0382485372476,
+            "52_week_low": 433.5491440166303
+        },
+        {
+            "stock_symbol": "CHOLAFIN.NS",
+            "relative_strength": 10.695859815260352,
+            "last_traded_price": 1587.300048828125,
+            "52_week_high": 1650.445856452939,
+            "52_week_low": 1098.9338799617606
+        },
+        {
+            "stock_symbol": "ZFCVINDIA.NS",
+            "relative_strength": 10.595193178892057,
+            "last_traded_price": 13301.0,
+            "52_week_high": 18230.47276507837,
+            "52_week_low": 9561.0
+        },
+        {
+            "stock_symbol": "GODREJIND.NS",
+            "relative_strength": 10.520703455629654,
+            "last_traded_price": 1129.699951171875,
+            "52_week_high": 1314.0,
+            "52_week_low": 725.0
+        },
+        {
+            "stock_symbol": "AADHARHFC.NS",
+            "relative_strength": 10.120169711499594,
+            "last_traded_price": 485.3500061035156,
+            "52_week_high": 516.7999877929688,
+            "52_week_low": 292.0
+        },
+        {
+            "stock_symbol": "CHOLAHLDNG.NS",
+            "relative_strength": 9.75308604083831,
+            "last_traded_price": 1872.9000244140625,
+            "52_week_high": 2154.949951171875,
+            "52_week_low": 1033.282629514829
+        },
+        {
+            "stock_symbol": "SOLARINDS.NS",
+            "relative_strength": 9.550373025059782,
+            "last_traded_price": 12233.0,
+            "52_week_high": 13298.0,
+            "52_week_low": 7882.407169095995
+        },
+        {
+            "stock_symbol": "PGEL.NS",
+            "relative_strength": 9.319416841083932,
+            "last_traded_price": 948.4500122070312,
+            "52_week_high": 1054.199951171875,
+            "52_week_low": 182.04064468984666
+        },
+        {
+            "stock_symbol": "DOMS.NS",
+            "relative_strength": 9.303999966706199,
+            "last_traded_price": 2891.0,
+            "52_week_high": 3115.0,
+            "52_week_low": 1694.741335043576
+        },
+        {
+            "stock_symbol": "INDIGO.NS",
+            "relative_strength": 8.66700684027418,
+            "last_traded_price": 5366.0,
+            "52_week_high": 5400.0,
+            "52_week_low": 3441.050048828125
+        },
+        {
+            "stock_symbol": "AXISBANK.NS",
+            "relative_strength": 7.783612573772804,
+            "last_traded_price": 1190.800048828125,
+            "52_week_high": 1339.6500244140625,
+            "52_week_low": 933.5
+        },
+        {
+            "stock_symbol": "BAJFINANCE.NS",
+            "relative_strength": 7.781606133448623,
+            "last_traded_price": 9162.5,
+            "52_week_high": 9290.0,
+            "52_week_low": 6343.85315782399
+        },
+        {
+            "stock_symbol": "MANAPPURAM.NS",
+            "relative_strength": 7.5614212011694075,
+            "last_traded_price": 229.2100067138672,
+            "52_week_high": 247.60000610351562,
+            "52_week_low": 136.79189724628364
+        },
+        {
+            "stock_symbol": "ASTRAZEN.NS",
+            "relative_strength": 7.478695366998291,
+            "last_traded_price": 8746.0,
+            "52_week_high": 9167.5,
+            "52_week_low": 4783.989725307058
+        },
+        {
+            "stock_symbol": "MEDANTA.NS",
+            "relative_strength": 7.384972016139671,
+            "last_traded_price": 1269.0999755859375,
+            "52_week_high": 1511.0,
+            "52_week_low": 935.5
+        },
+        {
+            "stock_symbol": "POONAWALLA.NS",
+            "relative_strength": 7.376912293809366,
+            "last_traded_price": 384.6499938964844,
+            "52_week_high": 514.0,
+            "52_week_low": 267.20001220703125
+        },
+        {
+            "stock_symbol": "SHREECEM.NS",
+            "relative_strength": 7.167663163637796,
+            "last_traded_price": 31000.0,
+            "52_week_high": 31290.0,
+            "52_week_low": 23457.935347371887
+        },
+        {
+            "stock_symbol": "DMART.NS",
+            "relative_strength": 7.093070786486004,
+            "last_traded_price": 4357.10009765625,
+            "52_week_high": 5484.85009765625,
+            "52_week_low": 3340.0
+        },
+        {
+            "stock_symbol": "PCBL.NS",
+            "relative_strength": 7.020847992297462,
+            "last_traded_price": 434.20001220703125,
+            "52_week_high": 575.4976699828628,
+            "52_week_low": 205.81623060264374
+        },
+        {
+            "stock_symbol": "HOMEFIRST.NS",
+            "relative_strength": 7.00801405160391,
+            "last_traded_price": 1202.300048828125,
+            "52_week_high": 1383.300048828125,
+            "52_week_low": 773.6038206587397
         }
     ]
 }
