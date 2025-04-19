@@ -656,6 +656,11 @@ def top_stocks():
 
     # Get the NIFTY market return to determine if it's a bull or bear market
     nifty_return = calculate_pct_change("^NSEI")
+
+    if nifty_return is None:
+        print("NIFTY return is None. Aborting operation.")
+        return []
+
     print("nifty_return", nifty_return)
 
     for stock_symbol in nifty_500:
@@ -668,9 +673,10 @@ def top_stocks():
             continue  # Skip this stock if data couldn't be fetched
 
         try:
-            last_traded_price = float(stock_data['Close'].iloc[-1])
-            high_52_week = float(stock_data['High'].max())
-            low_52_week = float(stock_data['Low'].min())
+            last_traded_price = stock_data['Close'].iloc[-1].item()
+            high_52_week = stock_data['High'].max().item()
+            low_52_week = stock_data['Low'].min().item()
+
 
         except Exception as e:
             print(f"Error processing data for {stock_symbol}: {e}")
@@ -756,7 +762,11 @@ def fetch_sector_data_with_retry(symbol: str, start_date: str, end_date: str, re
 def sector_strength():
     sector_rs = []
     nifty_return = calculate_pct_change("^NSEI")
-    nifty_return = 0
+
+    if nifty_return is None:
+        print("NIFTY return is None. Aborting operation.")
+        return []
+
     end_date = datetime.today()
     start_date = end_date - timedelta(days=365)  # last 1 year
 
@@ -769,9 +779,10 @@ def sector_strength():
             continue  # Skip this sector if data couldn't be fetched
 
         try:
-            current_price = float(sector_data['Close'].iloc[-1])
-            high_52_week = float(sector_data['High'].max())
-            low_52_week = float(sector_data['Low'].min())
+            current_price = sector_data['Close'].iloc[-1].item()
+            high_52_week = sector_data['High'].max().item()
+            low_52_week = sector_data['Low'].min().item()
+
                 
         except Exception as e:
             print(f"Error processing sector data for {sector} ({symbol}): {e}")
