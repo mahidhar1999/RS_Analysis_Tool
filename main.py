@@ -668,9 +668,10 @@ def top_stocks():
             continue  # Skip this stock if data couldn't be fetched
 
         try:
-            last_traded_price = stock_data['Close'].iloc[-1].item()
-            high_52_week = stock_data['High'].max().item()
-            low_52_week = stock_data['Low'].min().item()
+            last_traded_price = float(stock_data['Close'].iloc[-1])
+            high_52_week = float(stock_data['High'].max())
+            low_52_week = float(stock_data['Low'].min())
+
         except Exception as e:
             print(f"Error processing data for {stock_symbol}: {e}")
             last_traded_price = None
@@ -768,9 +769,10 @@ def sector_strength():
             continue  # Skip this sector if data couldn't be fetched
 
         try:
-            current_price = sector_data['Close'].iloc[-1].item()
-            high_52_week = sector_data['High'].max().item()
-            low_52_week = sector_data['Low'].min().item()
+            current_price = float(sector_data['Close'].iloc[-1])
+            high_52_week = float(sector_data['High'].max())
+            low_52_week = float(sector_data['Low'].min())
+                
         except Exception as e:
             print(f"Error processing sector data for {sector} ({symbol}): {e}")
             current_price = None
@@ -806,7 +808,7 @@ def sector_strength():
     return sorted_sectors
 
 @app.get("/get-top-sectors")
-def get_top_stocks():
+def get_top_sectors():
     # Read the results from the saved file
     try:
         with open("top_sectors_data.json", "r") as f:
