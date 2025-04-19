@@ -537,66 +537,59 @@ app = FastAPI()
 @app.api_route("/", methods=["GET", "HEAD"])
 def read_root():
     return {"message": "Welcome to the RS Screener API 🚀"}
-
-def calculate_pct_change(symbol: str, period: int = 55):
+def calculate_pct_change(symbol: str, period: int = 55, retries: int = 3, delay: int = 5):
     end_date = datetime.today()
     start_date = end_date - timedelta(days=period * 2)  # Extended range to cover weekends/holidays
 
-    try:
-        print(f"\nFetching data for {symbol}")
-        print(f"Start Date: {start_date.strftime('%Y-%m-%d')}")
-        print(f"End Date: {end_date.strftime('%Y-%m-%d')}")
-        
-        data = yf.download(symbol, start=start_date, end=end_date)
-        
-        # Extract 'Close' column as a Series, not DataFrame
-        close = data['Close'].squeeze()  # .squeeze() converts a DataFrame to a Series if only one column
-        
-        print(f"Total data points fetched: {len(close)}")
-        
-        # Debug: Check the type of 'Close' data
-        print(f"Type of 'Close' data: {type(close)}")
+    attempt = 0
+    while attempt < retries:
+        try:
+            print(f"\nFetching data for {symbol} (Attempt {attempt + 1}/{retries})")
+            print(f"Start Date: {start_date.strftime('%Y-%m-%d')}")
+            print(f"End Date: {end_date.strftime('%Y-%m-%d')}")
+            
+            data = yf.download(symbol, start=start_date, end=end_date)
+            
+            if data.empty:
+                raise ValueError("No data fetched")
+            
+            close = data['Close'].squeeze()  # Get Close as Series
+            print(f"Total data points fetched: {len(close)}")
+            print(f"Type of 'Close' data: {type(close)}")
 
-        # Drop any rows with NaN values in 'Close' column
-        close = close.dropna()
-        print(f"Data after dropping NaN values: {len(close)}")
+            close = close.dropna()
+            print(f"Data after dropping NaN values: {len(close)}")
+            print("Raw 'Close' data:")
+            print(close.head(10))
 
-        # Debug: Print out the raw 'Close' data
-        print("Raw 'Close' data:")
-        print(close.head(10))  # Print first 10 rows to inspect the data
-        
-        # Ensure that the data is numeric (coerce non-numeric values to NaN)
-        close = pd.to_numeric(close, errors='coerce')
-        
-        # Drop any new NaN values after coercion
-        close = close.dropna()
+            close = pd.to_numeric(close, errors='coerce').dropna()
 
-        # Check if there's enough data after cleaning
-        if len(close) < period:
-            print(f"Not enough trading days for {symbol}. Needed: {period}, Got: {len(close)}")
-            return None
-        
-        # Check the type of the 'Close' column
-        print(f"Data type of 'Close' column: {close.dtype}")
+            if len(close) < period:
+                print(f"Not enough trading days for {symbol}. Needed: {period}, Got: {len(close)}")
+                return None
 
-        # Take only the last `period` trading days
-        close = close.tail(period)
-        print(f"Using last {len(close)} trading days for calculation.")
-        print("Dates used:")
-        print(close.index)
+            print(f"Data type of 'Close' column: {close.dtype}")
+            close = close.tail(period)
+            print(f"Using last {len(close)} trading days for calculation.")
+            print("Dates used:")
+            print(close.index)
 
-        # Ensure that the first and last values are numeric
-        start_price = close.iloc[0]
-        end_price = close.iloc[-1]
+            start_price = close.iloc[0]
+            end_price = close.iloc[-1]
 
-        # Calculate percentage change using the correct values
-        pct_change = (end_price - start_price) / start_price * 100  # Percent change in percentage form
-        print(f"Percentage change over {period} trading days: {pct_change:.4f}%")
-        return pct_change
-    
-    except Exception as e:
-        print(f"Error fetching {symbol}: {e}")
-        return None
+            pct_change = (end_price - start_price) / start_price * 100
+            print(f"Percentage change over {period} trading days: {pct_change:.4f}%")
+            return pct_change
+
+        except Exception as e:
+            attempt += 1
+            print(f"Error fetching {symbol} (Attempt {attempt}): {e}")
+            if attempt < retries:
+                time.sleep(delay)
+            else:
+                print(f"Failed to fetch data for {symbol} after {retries} attempts.")
+                return None
+
     
 def calculate_rs(stock_symbol: str, comparative_symbol: str = "^NSEI", period: int = 55):
     end_date = datetime.today()
@@ -701,6 +694,8 @@ def top_stocks():
             elif nifty_return < 0 and rs < 1:
                 rs_values.append(stock_info)
                 print(f"Appended {stock_symbol} [Bear] with RS: {-1 * rs}, LTP: {last_traded_price}")
+            
+            time.sleep(1)  # 1-second pause between calls
 
     # Sort by RS descending and return top 25
     top_25_stocks = sorted(rs_values, key=lambda x: x["relative_strength"], reverse=True)[:25]
@@ -790,7 +785,7 @@ def sector_strength():
                 "52_week_high": high_52_week,
                 "52_week_low": low_52_week
             })
-
+        time.sleep(1)
     sorted_sectors = sorted(sector_rs, key=lambda x: x["relative_strength"], reverse=True)
     
     # Add creation timestamp in IST
