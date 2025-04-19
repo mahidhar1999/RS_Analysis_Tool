@@ -614,7 +614,7 @@ def calculate_rs(stock_symbol: str, comparative_symbol: str = "^NSEI", period: i
         return None
 
     
-@app.get("/top-stocks")
+@app.api_route("/top-stocks", methods=["GET", "HEAD"])
 def top_stocks():
     rs_values = []
 
