@@ -534,6 +534,7 @@ sector_indices = {
 
 
 app = FastAPI()
+
 @app.api_route("/", methods=["GET", "HEAD"])
 def read_root():
     return {"message": "Welcome to the RS Screener API 🚀"}
@@ -544,9 +545,9 @@ def calculate_pct_change(symbol: str, period: int = 55, retries: int = 3, delay:
     attempt = 0
     while attempt < retries:
         try:
-            print(f"\nFetching data for {symbol} (Attempt {attempt + 1}/{retries})")
-            print(f"Start Date: {start_date.strftime('%Y-%m-%d')}")
-            print(f"End Date: {end_date.strftime('%Y-%m-%d')}")
+            print(f"\nFetching data for {symbol} (Attempt {attempt + 1}/{retries})", flush=True)
+            print(f"Start Date: {start_date.strftime('%Y-%m-%d')}", flush=True)
+            print(f"End Date: {end_date.strftime('%Y-%m-%d')}", flush=True)
             
             data = yf.download(symbol, start=start_date, end=end_date)
             
@@ -554,40 +555,40 @@ def calculate_pct_change(symbol: str, period: int = 55, retries: int = 3, delay:
                 raise ValueError("No data fetched")
             
             close = data['Close'].squeeze()  # Get Close as Series
-            print(f"Total data points fetched: {len(close)}")
-            print(f"Type of 'Close' data: {type(close)}")
+            print(f"Total data points fetched: {len(close)}", flush=True)
+            print(f"Type of 'Close' data: {type(close)}", flush=True)
 
             close = close.dropna()
-            print(f"Data after dropping NaN values: {len(close)}")
-            print("Raw 'Close' data:")
-            print(close.head(10))
+            print(f"Data after dropping NaN values: {len(close)}", flush=True)
+            print("Raw 'Close' data:", flush=True)
+            print(close.head(10), flush=True)
 
             close = pd.to_numeric(close, errors='coerce').dropna()
 
             if len(close) < period:
-                print(f"Not enough trading days for {symbol}. Needed: {period}, Got: {len(close)}")
+                print(f"Not enough trading days for {symbol}. Needed: {period}, Got: {len(close)}", flush=True)
                 return None
 
-            print(f"Data type of 'Close' column: {close.dtype}")
+            print(f"Data type of 'Close' column: {close.dtype}", flush=True)
             close = close.tail(period)
-            print(f"Using last {len(close)} trading days for calculation.")
-            print("Dates used:")
+            print(f"Using last {len(close)} trading days for calculation.", flush=True)
+            print("Dates used:", flush=True)
             print(close.index)
 
             start_price = close.iloc[0]
             end_price = close.iloc[-1]
 
             pct_change = (end_price - start_price) / start_price * 100
-            print(f"Percentage change over {period} trading days: {pct_change:.4f}%")
+            print(f"Percentage change over {period} trading days: {pct_change:.4f}%", flush=True)
             return pct_change
 
         except Exception as e:
             attempt += 1
-            print(f"Error fetching {symbol} (Attempt {attempt}): {e}")
+            print(f"Error fetching {symbol} (Attempt {attempt}): {e}", flush=True)
             if attempt < retries:
                 time.sleep(delay)
             else:
-                print(f"Failed to fetch data for {symbol} after {retries} attempts.")
+                print(f"Failed to fetch data for {symbol} after {retries} attempts.", flush=True)
                 return None
 
     
@@ -600,14 +601,14 @@ def calculate_rs(stock_symbol: str, comparative_symbol: str = "^NSEI", period: i
         index_data = yf.download(comparative_symbol, start=start_date, end=end_date)
 
         if stock_data.empty or index_data.empty:
-            print(f"[{stock_symbol}] Data not available.")
+            print(f"[{stock_symbol}] Data not available.", flush=True)
             return None
 
         stock_close = stock_data['Close'].dropna()[-period:]
         index_close = index_data['Close'].dropna()[-period:]
 
         if len(stock_close) < period or len(index_close) < period:
-            print(f"[{stock_symbol}] Not enough trading data.")
+            print(f"[{stock_symbol}] Not enough trading data.", flush=True)
             return None
 
         stock_start = stock_close.iloc[0].item()
@@ -626,7 +627,7 @@ def calculate_rs(stock_symbol: str, comparative_symbol: str = "^NSEI", period: i
         return rs
 
     except Exception as e:
-        print(f"Error processing {stock_symbol}: {e}")
+        print(f"Error processing {stock_symbol}: {e}", flush=True)
         return None
 
 
@@ -643,11 +644,11 @@ def fetch_stock_data_with_retry(stock_symbol: str, retries: int = 3, delay: int 
             return stock_data
         except Exception as e:
             attempt += 1
-            print(f"Error fetching data for {stock_symbol} (Attempt {attempt}/{retries}): {e}")
+            print(f"Error fetching data for {stock_symbol} (Attempt {attempt}/{retries}): {e}", flush=True)
             if attempt < retries:
                 time.sleep(delay)  # Wait before retrying
             else:
-                print(f"Failed to fetch data for {stock_symbol} after {retries} attempts.")
+                print(f"Failed to fetch data for {stock_symbol} after {retries} attempts.", flush=True)
                 return None
 
 @app.api_route("/top-stocks", methods=["GET", "HEAD"])
@@ -658,14 +659,14 @@ def top_stocks():
     nifty_return = calculate_pct_change("^NSEI")
 
     if nifty_return is None:
-        print("NIFTY return is None. Aborting operation.")
+        print("NIFTY return is None. Aborting operation.", flush=True)
         return []
 
-    print("nifty_return", nifty_return)
+    print("nifty_return", nifty_return, flush=True)
 
     for stock_symbol in nifty_500:
         rs = calculate_rs(stock_symbol)
-        print(stock_symbol, " RS: ", rs)
+        print(stock_symbol, " RS: ", rs, flush=True)
 
         # Fetch stock data with retry mechanism
         stock_data = fetch_stock_data_with_retry(stock_symbol)
@@ -679,7 +680,7 @@ def top_stocks():
 
 
         except Exception as e:
-            print(f"Error processing data for {stock_symbol}: {e}")
+            print(f"Error processing data for {stock_symbol}: {e}", flush=True)
             last_traded_price = None
             high_52_week = None
             low_52_week = None
@@ -696,11 +697,11 @@ def top_stocks():
             # Bull Market: RS > 1
             if nifty_return > 0 and rs > 1:
                 rs_values.append(stock_info)
-                print(f"Appended {stock_symbol} [Bull] with RS: {rs}, LTP: {last_traded_price}")
+                print(f"Appended {stock_symbol} [Bull] with RS: {rs}, LTP: {last_traded_price}", flush=True)
             # Bear Market: RS < 1 (falling less)
             elif nifty_return < 0 and rs < 1:
                 rs_values.append(stock_info)
-                print(f"Appended {stock_symbol} [Bear] with RS: {-1 * rs}, LTP: {last_traded_price}")
+                print(f"Appended {stock_symbol} [Bear] with RS: {-1 * rs}, LTP: {last_traded_price}", flush=True)
             
             time.sleep(1)  # 1-second pause between calls
 
@@ -718,9 +719,9 @@ def top_stocks():
                 "created_at": created_at,
                 "data": top_25_stocks
             }, f, indent=4)
-            print("Data saved to top_stocks_data.json")
+            print("Data saved to top_stocks_data.json", flush=True)
     except Exception as e:
-        print(f"Error saving data: {e}")
+        print(f"Error saving data: {e}", flush=True)
 
     return top_25_stocks
 
@@ -730,13 +731,13 @@ def get_top_stocks():
     try:
         with open("top_stocks_data.json", "r") as f:
             top_25_stocks = json.load(f)
-            print("Data loaded from top_stocks_data.json")
+            print("Data loaded from top_stocks_data.json", flush=True)
             return top_25_stocks
     except FileNotFoundError:
-        print("File not found. Please run the API first.")
+        print("File not found. Please run the API first.", flush=True)
         return {"message": "Data not available. Please run the API first."}
     except Exception as e:
-        print(f"Error loading data: {e}")
+        print(f"Error loading data: {e}", flush=True)
         return {"message": "Error loading data."}
 
 # Helper function to fetch sector data with retry logic
@@ -751,11 +752,11 @@ def fetch_sector_data_with_retry(symbol: str, start_date: str, end_date: str, re
             return data
         except Exception as e:
             attempt += 1
-            print(f"Error fetching data for {symbol} (Attempt {attempt}/{retries}): {e}")
+            print(f"Error fetching data for {symbol} (Attempt {attempt}/{retries}): {e}", flush=True)
             if attempt < retries:
                 time.sleep(delay)  # Wait before retrying
             else:
-                print(f"Failed to fetch data for {symbol} after {retries} attempts.")
+                print(f"Failed to fetch data for {symbol} after {retries} attempts.", flush=True)
                 return None
 
 @app.api_route("/sector-strength", methods=["GET", "HEAD"])
@@ -764,7 +765,7 @@ def sector_strength():
     nifty_return = calculate_pct_change("^NSEI")
 
     if nifty_return is None:
-        print("NIFTY return is None. Aborting operation.")
+        print("NIFTY return is None. Aborting operation.", flush=True)
         return []
 
     end_date = datetime.today()
@@ -785,7 +786,7 @@ def sector_strength():
 
                 
         except Exception as e:
-            print(f"Error processing sector data for {sector} ({symbol}): {e}")
+            print(f"Error processing sector data for {sector} ({symbol}): {e}", flush=True)
             current_price = None
             high_52_week = None
             low_52_week = None
@@ -801,11 +802,11 @@ def sector_strength():
                         # Bull Market: RS > 1
             if nifty_return > 0 and rs > 1:
                 sector_rs.append(sector_info)
-                print(f"Appended {sector} [Bull] with RS: {rs}, LTP: {current_price}")
+                print(f"Appended {sector} [Bull] with RS: {rs}, LTP: {current_price}", flush=True)
             # Bear Market: RS < 1 (falling less)
             elif nifty_return < 0 and rs < 1:
                 sector_rs.append(sector_info)
-                print(f"Appended {sector} [Bear] with RS: {-1 * rs}, LTP: {current_price}")
+                print(f"Appended {sector} [Bear] with RS: {-1 * rs}, LTP: {current_price}", flush=True)
             
         time.sleep(1)
     sorted_sectors = sorted(sector_rs, key=lambda x: x["relative_strength"], reverse=True)
@@ -821,9 +822,9 @@ def sector_strength():
                 "created_at": created_at,
                 "data": sorted_sectors
             }, f, indent=4)
-            print("Data saved to top_sectors_data.json")
+            print("Data saved to top_sectors_data.json", flush=True)
     except Exception as e:
-        print(f"Error saving data: {e}")
+        print(f"Error saving data: {e}", flush=True)
     
     return sorted_sectors
 
@@ -833,12 +834,12 @@ def get_top_sectors():
     try:
         with open("top_sectors_data.json", "r") as f:
             top_25_stocks = json.load(f)
-            print("Data loaded from top_sectors_data.json")
+            print("Data loaded from top_sectors_data.json", flush=True)
             return top_25_stocks
     except FileNotFoundError:
-        print("File not found. Please run the API first.")
+        print("File not found. Please run the API first.", flush=True)
         return {"message": "Data not available. Please run the API first."}
     except Exception as e:
-        print(f"Error loading data: {e}")
+        print(f"Error loading data: {e}", flush=True)
         return {"message": "Error loading data."}
 
