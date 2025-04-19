@@ -756,7 +756,7 @@ def fetch_sector_data_with_retry(symbol: str, start_date: str, end_date: str, re
 def sector_strength():
     sector_rs = []
     nifty_return = calculate_pct_change("^NSEI")
-
+    nifty_return = 0
     end_date = datetime.today()
     start_date = end_date - timedelta(days=365)  # last 1 year
 
@@ -780,13 +780,22 @@ def sector_strength():
             low_52_week = None
 
         if rs is not None and current_price is not None:
-            sector_rs.append({
+            sector_info = {
                 "sector": sector,
                 "relative_strength": rs if nifty_return > 0 else (-1 * rs),
-                "current_price": current_price,
+                "last_traded_price": current_price,
                 "52_week_high": high_52_week,
                 "52_week_low": low_52_week
-            })
+            }
+                        # Bull Market: RS > 1
+            if nifty_return > 0 and rs > 1:
+                sector_rs.append(sector_info)
+                print(f"Appended {sector} [Bull] with RS: {rs}, LTP: {current_price}")
+            # Bear Market: RS < 1 (falling less)
+            elif nifty_return < 0 and rs < 1:
+                sector_rs.append(sector_info)
+                print(f"Appended {sector} [Bear] with RS: {-1 * rs}, LTP: {current_price}")
+            
         time.sleep(1)
     sorted_sectors = sorted(sector_rs, key=lambda x: x["relative_strength"], reverse=True)
     
