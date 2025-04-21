@@ -512,7 +512,7 @@ stock_symbols = [
 ]
 
 nifty_500 = [symbol + ".NS" for symbol in stock_symbols]
-#nifty_500 = ["RELIANCE.NS", "TCS.NS", "INFY.NS"]
+#nifty_500 = ["RELIANCE.NS", "TCS.NS", "INFY.NS","ZFCVINDIA.NS"]
 
 sector_indices = {
         "NIFTY AUTO": "^CNXAUTO",
@@ -539,7 +539,8 @@ app = FastAPI()
 def read_root():
     return {"message": "Welcome to the RS Screener API 🚀"}
 def calculate_pct_change(symbol: str, period: int = 55, retries: int = 3, delay: int = 5):
-    end_date = datetime.today()
+    ist = pytz.timezone("Asia/Kolkata")
+    end_date = datetime.now(ist)
     start_date = end_date - timedelta(days=period * 2)  # Extended range to cover weekends/holidays
 
     attempt = 0
@@ -593,7 +594,8 @@ def calculate_pct_change(symbol: str, period: int = 55, retries: int = 3, delay:
 
     
 def calculate_rs(stock_symbol: str, comparative_symbol: str = "^NSEI", period: int = 55):
-    end_date = datetime.today()
+    ist = pytz.timezone("Asia/Kolkata")
+    end_date = datetime.now(ist)
     start_date = end_date - timedelta(days=period * 2)
 
     try:
@@ -767,8 +769,8 @@ def sector_strength():
     if nifty_return is None:
         print("NIFTY return is None. Aborting operation.", flush=True)
         return []
-
-    end_date = datetime.today()
+    ist = pytz.timezone("Asia/Kolkata")
+    end_date = datetime.now(ist)
     start_date = end_date - timedelta(days=365)  # last 1 year
 
     for sector, symbol in sector_indices.items():
