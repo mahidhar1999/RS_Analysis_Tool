@@ -1,180 +1,180 @@
 {
-    "created_at": "2025-09-18 22:58:21",
+    "created_at": "2025-11-15 23:06:21",
     "data": [
         {
+            "stock_symbol": "IDEA.NS",
+            "relative_strength": 13.720437726087887,
+            "last_traded_price": 10.9399995803833,
+            "52_week_high": 11.079999923706055,
+            "52_week_low": 6.119999885559082
+        },
+        {
+            "stock_symbol": "CHENNPETRO.NS",
+            "relative_strength": 12.267959821069066,
+            "last_traded_price": 1029.0,
+            "52_week_high": 1051.75,
+            "52_week_low": 429.9277991176937
+        },
+        {
             "stock_symbol": "NETWEB.NS",
-            "relative_strength": 75.94777294174045,
-            "last_traded_price": 3037.699951171875,
-            "52_week_high": 3314.0,
+            "relative_strength": 11.03781871361227,
+            "last_traded_price": 3438.0,
+            "52_week_high": 4479.0,
             "52_week_low": 1250.035424836856
         },
         {
-            "stock_symbol": "ANANDRATHI.NS",
-            "relative_strength": 54.91002716308879,
-            "last_traded_price": 3065.60009765625,
-            "52_week_high": 3090.39990234375,
-            "52_week_low": 1587.3682466802932
+            "stock_symbol": "SAMMAANCAP.NS",
+            "relative_strength": 10.171369605027914,
+            "last_traded_price": 176.13999938964844,
+            "52_week_high": 192.9499969482422,
+            "52_week_low": 97.61000061035156
         },
         {
-            "stock_symbol": "GPIL.NS",
-            "relative_strength": 50.863832973128744,
-            "last_traded_price": 260.4700012207031,
-            "52_week_high": 275.5,
-            "52_week_low": 145.03654831446417
+            "stock_symbol": "NATIONALUM.NS",
+            "relative_strength": 9.477431920432773,
+            "last_traded_price": 262.57000732421875,
+            "52_week_high": 267.84207478079657,
+            "52_week_low": 134.11240440715244
         },
         {
-            "stock_symbol": "OLAELEC.NS",
-            "relative_strength": 50.399009545277124,
-            "last_traded_price": 57.709999084472656,
-            "52_week_high": 123.9000015258789,
-            "52_week_low": 39.599998474121094
+            "stock_symbol": "HINDCOPPER.NS",
+            "relative_strength": 9.475386325094576,
+            "last_traded_price": 335.25,
+            "52_week_high": 365.5,
+            "52_week_low": 182.87694414317647
+        },
+        {
+            "stock_symbol": "JKTYRE.NS",
+            "relative_strength": 8.881707583990055,
+            "last_traded_price": 460.0,
+            "52_week_high": 476.0,
+            "52_week_low": 240.86623900707792
+        },
+        {
+            "stock_symbol": "SHRIRAMFIN.NS",
+            "relative_strength": 8.75345551317336,
+            "last_traded_price": 809.2999877929688,
+            "52_week_high": 838.6500244140625,
+            "52_week_low": 485.90474844116284
+        },
+        {
+            "stock_symbol": "MRPL.NS",
+            "relative_strength": 8.508843003790085,
+            "last_traded_price": 171.8300018310547,
+            "52_week_high": 182.1999969482422,
+            "52_week_low": 98.91999816894531
+        },
+        {
+            "stock_symbol": "MUTHOOTFIN.NS",
+            "relative_strength": 8.429551747721,
+            "last_traded_price": 3725.60009765625,
+            "52_week_high": 3755.0,
+            "52_week_low": 1734.8190964928322
+        },
+        {
+            "stock_symbol": "CANBK.NS",
+            "relative_strength": 8.169878691119946,
+            "last_traded_price": 146.07000732421875,
+            "52_week_high": 146.3800048828125,
+            "52_week_low": 75.88121273073169
         },
         {
             "stock_symbol": "GMDCLTD.NS",
-            "relative_strength": 45.422252889725705,
-            "last_traded_price": 552.0499877929688,
-            "52_week_high": 570.2859469147154,
+            "relative_strength": 8.108162847207323,
+            "last_traded_price": 567.5999755859375,
+            "52_week_high": 651.0,
             "52_week_low": 222.4115083210785
         },
         {
-            "stock_symbol": "OLECTRA.NS",
-            "relative_strength": 45.09050454799287,
-            "last_traded_price": 1664.5999755859375,
-            "52_week_high": 1787.0,
-            "52_week_low": 989.9500122070312
+            "stock_symbol": "CUB.NS",
+            "relative_strength": 7.485795700996679,
+            "last_traded_price": 270.5899963378906,
+            "52_week_high": 271.5,
+            "52_week_low": 141.57613306646616
+        },
+        {
+            "stock_symbol": "LTF.NS",
+            "relative_strength": 7.406129484376381,
+            "last_traded_price": 294.1499938964844,
+            "52_week_high": 308.25,
+            "52_week_low": 127.16144617683844
         },
         {
             "stock_symbol": "HBLENGINE.NS",
-            "relative_strength": 44.39474141914968,
-            "last_traded_price": 858.3499755859375,
-            "52_week_high": 914.3499755859375,
+            "relative_strength": 7.253595320801218,
+            "last_traded_price": 1041.300048828125,
+            "52_week_high": 1122.0,
             "52_week_low": 404.52535290643516
         },
         {
+            "stock_symbol": "BHEL.NS",
+            "relative_strength": 7.230746293474238,
+            "last_traded_price": 281.6000061035156,
+            "52_week_high": 290.8999938964844,
+            "52_week_low": 175.63094183264417
+        },
+        {
             "stock_symbol": "NEULANDLAB.NS",
-            "relative_strength": 43.26970702210341,
-            "last_traded_price": 15873.0,
-            "52_week_high": 18085.023749408418,
+            "relative_strength": 6.83554893530853,
+            "last_traded_price": 17461.0,
+            "52_week_high": 19747.0,
             "52_week_low": 10182.267882797636
         },
         {
-            "stock_symbol": "SYRMA.NS",
-            "relative_strength": 40.43257942008972,
-            "last_traded_price": 811.8499755859375,
-            "52_week_high": 875.0,
-            "52_week_low": 370.0
+            "stock_symbol": "INDIANB.NS",
+            "relative_strength": 6.8122002789916785,
+            "last_traded_price": 868.4500122070312,
+            "52_week_high": 887.7999877929688,
+            "52_week_low": 462.08521047524124
         },
         {
-            "stock_symbol": "PAYTM.NS",
-            "relative_strength": 39.32330759182754,
-            "last_traded_price": 1229.300048828125,
-            "52_week_high": 1296.5999755859375,
-            "52_week_low": 628.5
+            "stock_symbol": "BANKINDIA.NS",
+            "relative_strength": 6.781139999129273,
+            "last_traded_price": 146.52000427246094,
+            "52_week_high": 147.8000030517578,
+            "52_week_low": 86.89731327296997
         },
         {
-            "stock_symbol": "SARDAEN.NS",
-            "relative_strength": 37.49599672874974,
-            "last_traded_price": 568.5999755859375,
-            "52_week_high": 639.75,
-            "52_week_low": 395.60707850758155
+            "stock_symbol": "MCX.NS",
+            "relative_strength": 6.312486067101552,
+            "last_traded_price": 9666.5,
+            "52_week_high": 9764.0,
+            "52_week_low": 4391.378466106268
         },
         {
-            "stock_symbol": "HYUNDAI.NS",
-            "relative_strength": 37.49096374460045,
-            "last_traded_price": 2720.800048828125,
-            "52_week_high": 2734.800048828125,
-            "52_week_low": 1526.9111514298602
+            "stock_symbol": "ADANIENSOL.NS",
+            "relative_strength": 6.1518377934119535,
+            "last_traded_price": 1023.8499755859375,
+            "52_week_high": 1050.0,
+            "52_week_low": 588.0
         },
         {
-            "stock_symbol": "ETERNAL.NS",
-            "relative_strength": 35.98772868454349,
-            "last_traded_price": 337.8500061035156,
-            "52_week_high": 338.5,
-            "52_week_low": 194.8000030517578
+            "stock_symbol": "BSE.NS",
+            "relative_strength": 6.147421654894368,
+            "last_traded_price": 2827.60009765625,
+            "52_week_high": 3030.0,
+            "52_week_low": 1223.4745819281572
         },
         {
-            "stock_symbol": "ECLERX.NS",
-            "relative_strength": 34.90393728606188,
-            "last_traded_price": 4409.0,
-            "52_week_high": 4640.0,
-            "52_week_low": 2167.457718471513
+            "stock_symbol": "ADANIPOWER.NS",
+            "relative_strength": 6.053629259838698,
+            "last_traded_price": 153.91000366210938,
+            "52_week_high": 182.6999969482422,
+            "52_week_low": 86.4000015258789
         },
         {
-            "stock_symbol": "AIIL.NS",
-            "relative_strength": 33.40795660528314,
-            "last_traded_price": 3197.800048828125,
-            "52_week_high": 3295.0,
-            "52_week_low": 1324.3285954301746
+            "stock_symbol": "CEATLTD.NS",
+            "relative_strength": 5.794223671112495,
+            "last_traded_price": 3986.39990234375,
+            "52_week_high": 4438.0,
+            "52_week_low": 2321.151776472338
         },
         {
-            "stock_symbol": "GVT&D.NS",
-            "relative_strength": 32.48500156584123,
-            "last_traded_price": 2985.89990234375,
-            "52_week_high": 3003.89990234375,
-            "52_week_low": 1251.706601482181
-        },
-        {
-            "stock_symbol": "HEROMOTOCO.NS",
-            "relative_strength": 31.67044014900134,
-            "last_traded_price": 5370.0,
-            "52_week_high": 6002.598864442989,
-            "52_week_low": 3294.1890091098116
-        },
-        {
-            "stock_symbol": "MARUTI.NS",
-            "relative_strength": 30.374917442646414,
-            "last_traded_price": 15817.0,
-            "52_week_high": 15939.0,
-            "52_week_low": 10610.16228851044
-        },
-        {
-            "stock_symbol": "LEMONTREE.NS",
-            "relative_strength": 29.655782648867444,
-            "last_traded_price": 172.1300048828125,
-            "52_week_high": 180.67999267578125,
-            "52_week_low": 112.29000091552734
-        },
-        {
-            "stock_symbol": "DELHIVERY.NS",
-            "relative_strength": 29.441624038627157,
-            "last_traded_price": 484.5,
-            "52_week_high": 489.1000061035156,
-            "52_week_low": 236.52999877929688
-        },
-        {
-            "stock_symbol": "CUMMINSIND.NS",
-            "relative_strength": 28.97308550409625,
-            "last_traded_price": 4101.0,
-            "52_week_high": 4168.7001953125,
-            "52_week_low": 2555.8898632002074
-        },
-        {
-            "stock_symbol": "EICHERMOT.NS",
-            "relative_strength": 27.185500545536605,
-            "last_traded_price": 6924.5,
-            "52_week_high": 6954.5,
-            "52_week_low": 4451.035622592079
-        },
-        {
-            "stock_symbol": "TVSMOTOR.NS",
-            "relative_strength": 26.727205365740478,
-            "last_traded_price": 3546.60009765625,
-            "52_week_high": 3602.699951171875,
-            "52_week_low": 2162.4328517695844
-        },
-        {
-            "stock_symbol": "FORTIS.NS",
-            "relative_strength": 26.45310482670004,
-            "last_traded_price": 968.4000244140625,
-            "52_week_high": 983.2000122070312,
-            "52_week_low": 571.3243416439801
-        },
-        {
-            "stock_symbol": "LAURUSLABS.NS",
-            "relative_strength": 25.98773034048327,
-            "last_traded_price": 923.25,
-            "52_week_high": 926.2999877929688,
-            "52_week_low": 426.11903655204225
+            "stock_symbol": "NAVINFLUOR.NS",
+            "relative_strength": 5.7888448664486845,
+            "last_traded_price": 6021.5,
+            "52_week_high": 6131.439072520967,
+            "52_week_low": 3172.0401913620794
         }
     ]
 }
